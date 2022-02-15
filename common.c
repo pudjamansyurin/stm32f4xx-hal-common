@@ -7,28 +7,44 @@
 #include "./common.h"
 
 /**
+ * @brief Get GPIO pin number index
+ * @param GPIO_Pin The GPIO pin
+ * @return The GPIO pin number
+ */
+uint8_t CMN_PinGetNumber(uint16_t GPIO_Pin)
+{
+  uint8_t i;
+
+  for (i = 0; i < GPIO_PIN_CNT; i++)
+    if (GPIO_Pin >> i == 1)
+      return i;
+
+  return 0;
+}
+
+/**
  * @brief Get related IRQ number based on GPIO pin
- * @param pin The GPIO pin
+ * @param pin_num The GPIO pin number
  * @return The IRQ number
  */
-IRQn_Type CMN_PinGetIrqNumber(uint16_t pin)
+IRQn_Type CMN_PinGetIrqNumber(uint8_t pin_num)
 {
   IRQn_Type IRQn;
 
   /* Select appropriate EXTI pin IRQ number */
-  if (pin >= GPIO_PIN_10)
+  if (pin_num >= 10)
     IRQn = EXTI15_10_IRQn;
-  else if (pin >= GPIO_PIN_5)
+  else if (pin_num >= 5)
     IRQn = EXTI9_5_IRQn;
-  else if (pin == GPIO_PIN_4)
+  else if (pin_num == 4)
     IRQn = EXTI4_IRQn;
-  else if (pin == GPIO_PIN_3)
+  else if (pin_num == 3)
     IRQn = EXTI3_IRQn;
-  else if (pin == GPIO_PIN_2)
+  else if (pin_num == 2)
     IRQn = EXTI2_IRQn;
-  else if (pin == GPIO_PIN_1)
+  else if (pin_num == 1)
     IRQn = EXTI1_IRQn;
-  else if (pin == GPIO_PIN_0)
+  else if (pin_num == 0)
     IRQn = EXTI0_IRQn;
 
   return (IRQn);
@@ -87,4 +103,3 @@ void CMN_PortDisableClock(GPIO_TypeDef *port)
   else if (port == GPIOA)
     __HAL_RCC_GPIOA_CLK_DISABLE();
 }
-
