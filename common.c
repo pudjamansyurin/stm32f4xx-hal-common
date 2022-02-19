@@ -8,46 +8,54 @@
 
 /**
  * @brief Get GPIO pin number index
+ * @param pin_num Pointer to destination pin buffer
  * @param GPIO_Pin The GPIO pin
- * @return The GPIO pin number
+ * @return HAL Status
  */
-uint8_t CMN_PinGetNumber(uint16_t GPIO_Pin)
+HAL_StatusTypeDef CMN_PinGetNumber(uint8_t *pin_num, uint16_t GPIO_Pin)
 {
   uint8_t i;
 
-  for (i = 0; i < GPIO_PIN_CNT; i++)
-    if (GPIO_Pin >> i == 1)
-      return i;
+  /* Find the pin number */
+  for (i = 0; i < GPIO_PIN_CNT; i++) {
+    if (GPIO_Pin >> i == 0x01) {
+      *pin_num = i;
+      return (HAL_OK);
+    }
+  }
 
-  return 0;
+  return (HAL_ERROR);
 }
 
 /**
  * @brief Get related IRQ number based on GPIO pin
+ * @param IRQn Pointer to destination IRQ buffer
  * @param pin_num The GPIO pin number
  * @return The IRQ number
  */
-IRQn_Type CMN_PinGetIrqNumber(uint8_t pin_num)
+HAL_StatusTypeDef CMN_PinGetIrqNumber(IRQn_Type *IRQn, uint8_t pin_num)
 {
-  IRQn_Type IRQn;
+  HAL_StatusTypeDef status = HAL_OK;
 
   /* Select appropriate EXTI pin IRQ number */
-  if (pin_num >= 10)
-    IRQn = EXTI15_10_IRQn;
-  else if (pin_num >= 5)
-    IRQn = EXTI9_5_IRQn;
+  if (pin_num >= 10 && pin_num <= 15)
+    *IRQn = EXTI15_10_IRQn;
+  else if (pin_num >= 5 && pin_num <= 9)
+    *IRQn = EXTI9_5_IRQn;
   else if (pin_num == 4)
-    IRQn = EXTI4_IRQn;
+    *IRQn = EXTI4_IRQn;
   else if (pin_num == 3)
-    IRQn = EXTI3_IRQn;
+    *IRQn = EXTI3_IRQn;
   else if (pin_num == 2)
-    IRQn = EXTI2_IRQn;
+    *IRQn = EXTI2_IRQn;
   else if (pin_num == 1)
-    IRQn = EXTI1_IRQn;
+    *IRQn = EXTI1_IRQn;
   else if (pin_num == 0)
-    IRQn = EXTI0_IRQn;
+    *IRQn = EXTI0_IRQn;
+  else
+    status = HAL_ERROR;
 
-  return (IRQn);
+  return (status);
 }
 
 /**

@@ -17,8 +17,8 @@
 #define DELAY_MS(__X__)         (HAL_Delay(__X__))
 
 /* Public function declarations */
-uint8_t CMN_PinGetNumber(uint16_t GPIO_Pin);
-IRQn_Type CMN_PinGetIrqNumber(uint8_t pin_num);
+HAL_StatusTypeDef CMN_PinGetNumber(uint8_t *pin_num, uint16_t GPIO_Pin);
+HAL_StatusTypeDef CMN_PinGetIrqNumber(IRQn_Type *IRQn, uint8_t pin_num);
 void CMN_PortEnableClock(GPIO_TypeDef *port);
 void CMN_PortDisableClock(GPIO_TypeDef *port);
 
