@@ -1,10 +1,10 @@
 /*
- * common.c
+ * util.c
  *
  *  Created on: Feb 15, 2022
  *      Author: pudja
  */
-#include "./common.h"
+#include "./util.h"
 
 /**
  * @brief Get GPIO pin number index
@@ -12,7 +12,7 @@
  * @param GPIO_Pin The GPIO pin
  * @return HAL Status
  */
-HAL_StatusTypeDef CMN_PinGetNumber(uint8_t *pin_num, uint16_t GPIO_Pin)
+HAL_StatusTypeDef UTIL_PinGetNumber(uint8_t *pin_num, uint16_t GPIO_Pin)
 {
   uint8_t i;
 
@@ -33,7 +33,7 @@ HAL_StatusTypeDef CMN_PinGetNumber(uint8_t *pin_num, uint16_t GPIO_Pin)
  * @param pin_num The GPIO pin number
  * @return The IRQ number
  */
-HAL_StatusTypeDef CMN_PinGetIrqNumber(IRQn_Type *IRQn, uint8_t pin_num)
+HAL_StatusTypeDef UTIL_PinGetIrqNumber(IRQn_Type *IRQn, uint8_t pin_num)
 {
   HAL_StatusTypeDef status = HAL_OK;
 
@@ -62,7 +62,7 @@ HAL_StatusTypeDef CMN_PinGetIrqNumber(IRQn_Type *IRQn, uint8_t pin_num)
  * @brief Enable GPIO clock
  * @param port Port to be enabled
  */
-void CMN_PortEnableClock(GPIO_TypeDef *port)
+void UTIL_PortEnableClock(GPIO_TypeDef *port)
 {
   assert_param(IS_GPIO_ALL_INSTANCE(port));
 
@@ -89,7 +89,7 @@ void CMN_PortEnableClock(GPIO_TypeDef *port)
  * @brief Dsiable GPIO clock
  * @param port Port to be disabled
  */
-void CMN_PortDisableClock(GPIO_TypeDef *port)
+void UTIL_PortDisableClock(GPIO_TypeDef *port)
 {
   assert_param(IS_GPIO_ALL_INSTANCE(port));
 
