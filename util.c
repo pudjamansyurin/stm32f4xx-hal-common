@@ -86,7 +86,7 @@ void UTIL_PortEnableClock(GPIO_TypeDef *port)
 }
 
 /**
- * @brief Dsiable GPIO clock
+ * @brief Disable GPIO clock
  * @param port Port to be disabled
  */
 void UTIL_PortDisableClock(GPIO_TypeDef *port)
